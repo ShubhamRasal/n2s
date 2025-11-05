@@ -64,6 +64,12 @@ See [screenshots](docs/SCREENSHOTS.md) for visual tour.
 go install github.com/shubhamrasal/n2s/cmd/n2s@latest
 ```
 
+Or install with Homebrew:
+
+```bash
+brew install shubhamrasal/tap/n2s
+```
+
 Or build from source:
 
 ```bash
