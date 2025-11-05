@@ -1,0 +1,61 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug N2S",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/cmd/n2s",
+            "args": [
+                "-c",
+                "${workspaceFolder}/bin/config.yaml"
+            ],
+            "env": {},
+            "showLog": true,
+            "trace": "verbose",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug N2S (localhost)",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/cmd/n2s",
+            "args": [
+                "--server",
+                "nats://localhost:4222"
+            ],
+            "env": {},
+            "showLog": true,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug N2S (read-only)",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/cmd/n2s",
+            "args": [
+                "-c",
+                "${workspaceFolder}/bin/config.yaml",
+                "--read-only"
+            ],
+            "env": {},
+            "showLog": true,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug N2S (custom args)",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/cmd/n2s",
+            "args": [],
+            "env": {},
+            "showLog": true,
+            "console": "integratedTerminal"
+        }
+    ]
+}
+

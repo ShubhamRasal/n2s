@@ -1,0 +1,82 @@
+# N2S Metrics Plugins Configuration Example
+# Copy this to ~/.config/n2s/plugins.yaml and customize for your environment
+#
+# Plugins provide metrics data for NATS streams and consumers.
+# Currently supported plugin types: prometheus
+
+plugins:
+  # Local Prometheus instance (for development)
+  - name: local-prometheus
+    type: prometheus
+    enabled: true
+    url: http://localhost:9090
+    # Optional: Basic auth (if Prometheus is secured)
+    # username: admin
+    # password: secret
+    # How often to refresh metrics from Prometheus
+    refresh_interval: 30s
+    # Time range for queries (how far back to look)
+    time_range: 1h
+    # Optional: Labels to filter metrics (helps narrow down to specific NATS cluster)
+    labels:
+      cluster: local-nats
+      env: development
+
+  # Development Prometheus instance
+  - name: dev-prometheus
+    type: prometheus
+    enabled: true
+    url: https://prometheus-dev.example.com
+    username: dev-user
+    password: dev-password
+    refresh_interval: 1m
+    time_range: 1h
+    labels:
+      cluster: nats-dev
+      env: development
+      datacenter: us-east-1
+
+  # Production Prometheus instance
+  - name: prod-prometheus
+    type: prometheus
+    enabled: true
+    url: https://prometheus-prod.example.com
+    username: prod-user
+    password: prod-password-or-token
+    refresh_interval: 1m
+    time_range: 2h
+    labels:
+      cluster: nats-prod
+      env: production
+      datacenter: us-west-2
+
+  # Cloud/Managed Prometheus (e.g., Grafana Cloud)
+  - name: cloud-prometheus
+    type: prometheus
+    enabled: true
+    url: https://prometheus.grafana.net/api/prom
+    username: "123456"
+    # For managed services, password is often an API token
+    password: glc_eyJrIjoiZXhhbXBsZS10b2tlbiJ9
+    refresh_interval: 1m
+    time_range: 3h
+    labels:
+      cluster: nats-cloud
+      env: production
+
+  # Disabled plugin example (can be enabled later)
+  - name: backup-prometheus
+    type: prometheus
+    enabled: false
+    url: https://prometheus-backup.example.com
+    refresh_interval: 1m
+    time_range: 1h
+
+# Notes:
+# - Plugin 'name' must be unique and is referenced in config.yaml contexts
+# - 'type' currently supports: prometheus (more types may be added in the future)
+# - 'enabled' allows you to keep plugin config without using it
+# - 'refresh_interval' and 'time_range' accept duration strings (s, m, h)
+# - 'labels' are optional but help filter metrics in multi-cluster environments
+# - For Grafana Cloud or similar services, use API tokens as password
+
