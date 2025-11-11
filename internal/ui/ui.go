@@ -152,7 +152,8 @@ func (ui *UIManager) Start() error {
 
 func (ui *UIManager) updateHeader() {
 	status := ui.header.UpdateStatus(ui.client.IsConnected())
-	ui.header.Update(ui.config.CurrentContextName(), status, ui.readOnly)
+	configSource := ui.config.GetConfigSourceDescription()
+	ui.header.UpdateWithSource(ui.config.CurrentContextName(), status, configSource, ui.readOnly)
 }
 
 func (ui *UIManager) autoRefreshLoop() {

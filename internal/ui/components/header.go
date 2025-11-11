@@ -37,6 +37,22 @@ func (h *Header) Update(contextName, status string, readOnly bool) {
 	h.SetText(header)
 }
 
+// UpdateWithSource updates the header with connection, context, and config source info
+func (h *Header) UpdateWithSource(contextName, status, configSource string, readOnly bool) {
+	readOnlyIndicator := ""
+	if readOnly {
+		readOnlyIndicator = " [yellow][READ-ONLY][white]"
+	}
+
+	header := fmt.Sprintf("[yellow]N2S[white] - NATS JetStream TUI          Context: [cyan]%s[white]      %s%s\n[gray]%s[white]",
+		contextName,
+		status,
+		readOnlyIndicator,
+		configSource,
+	)
+	h.SetText(header)
+}
+
 // UpdateStatus updates only the status portion
 func (h *Header) UpdateStatus(connected bool) string {
 	if connected {
