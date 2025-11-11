@@ -45,7 +45,10 @@
 
 ## Features
 
+- **NATS CLI integration** - Zero config! Uses your existing `nats` CLI contexts
+- **Configuration transparency** - Always shows which config source is active (NATS context, config file, CLI, or default)
 - **Multi-context support** - Switch between dev, staging, prod servers
+- **Portable configuration** - Environment variables, relative paths, tilde expansion
 - **Stream management** - List, describe, edit, delete, purge streams
 - **Consumer management** - View, edit, delete consumers  
 - **Message browser** - Inspect messages with full payload view
@@ -83,7 +86,7 @@ Binary will be at `bin/n2s`.
 ## Quick Start
 
 ```bash
-# Connect to local NATS
+# Connect to local NATS or if you use nats CLI
 n2s
 
 # Connect to specific server
@@ -97,22 +100,53 @@ Press `?` for help, `c` to switch contexts, `Ctrl+C` to quit.
 
 ## Configuration
 
-Create `~/.config/n2s/config.yaml`:
+### Zero Configuration (NATS CLI Integration)
+
+If you already use the NATS CLI (`nats` command), n2s will automatically discover and use your existing contexts from `~/.config/nats/context/`. No setup required!
+
+![NATS context switching screenshot](docs/screenshots/authcontext.png)
+
+
+```bash
+# List your NATS contexts
+nats context ls
+
+# Run n2s (automatically uses your current NATS context)
+n2s
+```
+
+See [docs/NATS_CONTEXT_INTEGRATION.md](docs/NATS_CONTEXT_INTEGRATION.md) for details.
+
+### Custom Configuration (Optional)
+
+Create `~/.config/n2s/config.yaml` for custom settings or if you don't use the NATS CLI:
 
 ```yaml
 contexts:
+  # Environment variables for portability
   - name: dev
     server: nats://localhost:4222
+    token: $NATS_DEV_TOKEN
+
+  # Tilde expansion for home directory  
   - name: prod
     server: nats://prod.example.com:4222
-    creds: /path/to/nats.creds
+    creds: ~/.nats/prod.creds
     metrics_plugin: prod-prometheus
+
+  # Relative paths (great for team repos)
+  - name: staging
+    server: nats://staging.example.com:4222
+    creds: ./creds/staging.creds
 
 default_context: dev
 refresh_interval: 2s
 ```
 
-**Default path**: `~/.config/n2s/config.yaml`
+**Portable paths supported:**
+- Environment variables: `$VAR` or `${VAR}`
+- Tilde expansion: `~/path`
+- Relative paths: `./path` or `../path`
 
 See [config-examples/config.yaml](config-examples/config.yaml) for all options.
 

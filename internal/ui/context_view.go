@@ -59,6 +59,11 @@ func (v *ContextView) Refresh() {
 	// Clear table
 	v.table.Clear()
 
+	// Update title with config source
+	configSource := v.ui.config.GetConfigSourceDescription()
+	title := fmt.Sprintf(" Select Context - %s ", configSource)
+	v.table.SetTitle(title)
+
 	// Set header
 	headers := []string{"NAME", "SERVER"}
 	for i, header := range headers {
